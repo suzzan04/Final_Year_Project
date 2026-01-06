@@ -15,7 +15,27 @@ from rest_framework import status
 class RentalHouseViewSet(ModelViewSet):
     queryset = RentalHouse.objects.all()
     serializer_class = RentalHouseSerializer
+    def get_queryset(self):
+        qs = RentalHouse.objects.all()
 
+        city = self.request.query_params.get("city")
+        house_type = self.request.query_params.get("house_type")
+        min_price = self.request.query_params.get("min_price")
+        max_price = self.request.query_params.get("max_price")
+
+        if city:
+            qs = qs.filter(city__icontains=city)
+
+        if house_type:
+            qs = qs.filter(house_type__icontains=house_type)
+
+        if min_price:
+            qs = qs.filter(price__gte=min_price)
+
+        if max_price:
+            qs = qs.filter(price__lte=max_price)
+
+        return qs
 
 
 @api_view(["POST"])
