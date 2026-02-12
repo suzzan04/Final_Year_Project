@@ -1,9 +1,7 @@
-#Serializer converts database data ↔ JSON
-
 from rest_framework import serializers
 from .models import RentalHouse
 
 class RentalHouseSerializer(serializers.ModelSerializer):
     class Meta:
         model = RentalHouse
-        fields = '__all__'
+        fields = "__all__"
